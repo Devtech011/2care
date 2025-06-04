@@ -9,7 +9,6 @@ interface ApiErrorResponse {
   [key: string]: any;
 }
 
-// Create axios instance with default config
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -17,7 +16,6 @@ const api = axios.create({
   },
 });
 
-// Add request interceptor to include auth token
 api.interceptors.request.use(
   (config) => {
     const token = Cookies.get('token');
@@ -31,33 +29,26 @@ api.interceptors.request.use(
   }
 );
 
-// Helper function to handle API errors
 const handleApiError = (error: AxiosError<ApiErrorResponse>) => {
   if (error.response) {
-    // The request was made and the server responded with a status code
-    // that falls out of the range of 2xx
     const message = error.response.data?.message || 'An error occurred';
     toast.error(message);
     throw new Error(message);
   } else if (error.request) {
-    // The request was made but no response was received
     toast.error('No response from server. Please check your internet connection.');
     throw new Error('Network error');
   } else {
-    // Something happened in setting up the request that triggered an Error
     toast.error('An unexpected error occurred');
     throw error;
   }
 };
 
-// Auth API calls
 export const authAPI = {
   login: async (email: string, password: string) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await api.post('/auth/signin', { email, password });
       const { token, user } = response.data;
-      // Set cookie with 7 days expiry
-      Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'strict' });
+      Cookies.set('token', token, { secure: true, sameSite: 'strict' });
       return user;
     } catch (error) {
       handleApiError(error as AxiosError<ApiErrorResponse>);
@@ -71,9 +62,8 @@ export const authAPI = {
   }) => {
     try {
       const response = await api.post('/auth/signup', userData);
-      const { token, user } = response.data;
-      // Set cookie with 7 days expiry
-      Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'strict' });
+      const { user } = response.data;
+      // Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'strict' });
       return user;
     } catch (error) {
       handleApiError(error as AxiosError<ApiErrorResponse>);

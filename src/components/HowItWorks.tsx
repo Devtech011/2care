@@ -1,25 +1,11 @@
+import { CardData } from "@/constants";
+
 export default function HowItWorks() {
     return (
       <div className="border border-gray-200 rounded-xl p-6 shadow-sm">
         <h2 className="text-lg font-semibold mb-4">How It Works</h2>
         <div className="space-y-4 text-sm">
-          {[
-            {
-              icon: "📤",
-              title: "Upload Your Report",
-              desc: "Securely upload your medical report through our platform or WhatsApp",
-            },
-            {
-              icon: "🤖",
-              title: "AI Analysis",
-              desc: "Our AI extracts key health information while maintaining privacy",
-            },
-            {
-              icon: "📝",
-              title: "Patient-Friendly Summary",
-              desc: "Receive a clear, easy-to-understand explanation of your results",
-            },
-          ].map((step, index) => (
+          {CardData.map((step, index) => (
             <div className="flex items-start gap-3" key={index}>
               <span className="text-violet-600">{step.icon}</span>
               <div>

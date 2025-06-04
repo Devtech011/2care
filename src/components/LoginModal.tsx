@@ -6,17 +6,7 @@ import SignUpModal from './SignUpModal';
 import { loginSchema } from '@/validation/schemas';
 import { authAPI } from '@/services/api';
 import toast from 'react-hot-toast';
-
-interface LoginModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onLogin: (email: string, password: string) => void;
-}
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+import { LoginModalProps, LoginFormValues } from '@/types';
 
 const initialValues: LoginFormValues = {
   email: '',
@@ -43,22 +33,7 @@ export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps
       setSubmitting(false);
     }
   };
-
-  const handleSignUp = async (data: any) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const user = await authAPI.signup(data);
-      await onLogin(data.email, data.password);
-      setShowSignUp(false);
-      onClose();
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to sign up. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  
   if (!isOpen) return null;
 
   return (
@@ -166,7 +141,6 @@ export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps
       <SignUpModal
         isOpen={showSignUp}
         onClose={() => setShowSignUp(false)}
-        onSignUp={()=>handleSignUp}
       />
     </>
   );

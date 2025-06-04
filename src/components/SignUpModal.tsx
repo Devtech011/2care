@@ -4,22 +4,8 @@ import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { signUpSchema } from '@/validation/schemas';
 import { authAPI } from '@/services/api';
-import { string } from 'yup';
 import toast from 'react-hot-toast';
-
-interface SignUpModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSignUp: (data: SignUpFormValues) => void;
-}
-
-interface SignUpFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { SignUpModalProps, SignUpFormValues } from '@/types';
 
 const initialValues: SignUpFormValues = {
   firstName: '',
@@ -29,7 +15,7 @@ const initialValues: SignUpFormValues = {
   confirmPassword: ''
 };
 
-export default function SignUpModal({ isOpen, onClose, onSignUp }: SignUpModalProps) {
+export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,7 +28,6 @@ export default function SignUpModal({ isOpen, onClose, onSignUp }: SignUpModalPr
         email: values.email,
         password: values.password
       });
-      await onSignUp(values);
       onClose();
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to sign up. Please try again.');

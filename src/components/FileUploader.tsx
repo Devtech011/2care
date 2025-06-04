@@ -6,22 +6,17 @@ import { fileAPI } from '@/services/api';
 import Loader from './Loader';
 import toast from 'react-hot-toast';
 import { useDropzone } from 'react-dropzone';
+import { FileUploaderProps } from '@/types';
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
 
-export default function FileUploader({setSummary,token}:any) {
+export default function FileUploader({ setSummary, token }: FileUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [agreed, setAgreed] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  // const [token, setToken] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // useEffect(() => {
-  //   const storedToken = localStorage.getItem('token');
-  //   setToken(storedToken);
-  // }, []);
 
   const validateFile = (file: File) => {
     if (file.type !== 'application/pdf') {
@@ -75,7 +70,7 @@ export default function FileUploader({setSummary,token}:any) {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setDragActive(false);
-    
+
     if (!token) {
       setIsLoginModalOpen(true);
       return;
@@ -111,7 +106,7 @@ export default function FileUploader({setSummary,token}:any) {
       toast.error("You must consent to HIPAA terms before uploading.");
       return;
     }
-    
+
     if (!token) {
       setIsLoginModalOpen(true);
       return;
@@ -164,13 +159,13 @@ export default function FileUploader({setSummary,token}:any) {
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           onClick={handleFileSelect}
-          className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors duration-200 ${
-            !agreed
+          className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors duration-200 
+            ${!agreed
               ? "cursor-not-allowed opacity-50 border-gray-300"
               : dragActive
-              ? "border-violet-500 bg-violet-50"
-              : "cursor-pointer border-gray-300 hover:bg-gray-50"
-          }`}
+                ? "border-violet-500 bg-violet-50"
+                : "cursor-pointer border-gray-300 hover:bg-gray-50"
+            }`}
         >
           <input
             type="file"
@@ -197,8 +192,8 @@ export default function FileUploader({setSummary,token}:any) {
         {file && (
           <div className="mt-6">
             <div className="p-3 bg-violet-50 border border-violet-200 rounded text-sm text-violet-700 flex items-center gap-2 mb-3">
-              📄 <span className="truncate">{file.name}</span>
-              <span className="text-xs text-gray-500">({formatFileSize(file.size)})</span>
+              📄 <span className="truncate">{file?.name}</span>
+              <span className="text-xs text-gray-500">({formatFileSize(file?.size)})</span>
             </div>
             <button
               onClick={handleUpload}

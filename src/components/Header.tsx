@@ -5,8 +5,9 @@ import LoginModal from './LoginModal';
 import Logo from '../../public/assets/report_7652441.png'
 import Image from 'next/image';
 import Cookies from 'js-cookie';
+import { HeaderProps } from '@/types';
 
-export default function Header({token}:{token:string | null}) {
+export default function Header({ token }: HeaderProps) {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   
