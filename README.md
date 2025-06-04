@@ -30,28 +30,26 @@ A secure, HIPAA-compliant web application that uses AI to analyze medical report
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
-cd medreport-analyzer
+git clone https://github.com/Devtech011/2care.git
+cd 2care
 ```
 
 2. Install dependencies:
 ```bash
 npm install
 # or
-yarn install
+npm install --legacy-peer-deps
 ```
 
 3. Create a `.env` file in the root directory and add your environment variables:
 ```env
-NEXT_PUBLIC_API_URL=your_api_url_here
+NEXT_PUBLIC_API_URL=http://localhost:3010/api
 ```
 
 4. Run the development server:
 ```bash
 npm run dev
-# or
-yarn dev
-```
+
 
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
