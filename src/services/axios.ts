@@ -14,6 +14,8 @@ export const responseInterceptor = {
   onRejected: (error: AxiosError) => {
     if (error.response?.status === 401) {
       Cookies.remove('token');
+      Cookies.remove('user');
+
       window.location.href = '/';
     }
     return Promise.reject(error);

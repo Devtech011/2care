@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoginModal from './LoginModal';
 import Logo from '../../public/assets/report_7652441.png'
 import Image from 'next/image';
@@ -9,14 +9,30 @@ import { HeaderProps } from '@/types';
 
 export default function Header({ token }: HeaderProps) {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
-  
+  const [user, setUser] = useState<object | null>(null);
+
+  useEffect(() => {
+    const userCookie = Cookies.get('user');
+    if (userCookie) {
+      try {
+        const storedUser = JSON.parse(userCookie);
+        setUser(storedUser.user || null);
+      } catch (error) {
+        console.error("Error parsing the user cookie:", error);
+        setUser(null);
+      }
+    } else {
+      setUser(null); 
+    }
+  }, []);
+
   const handleLogin = async (email: string, password: string) => {
     setIsLoginModalOpen(false);
   };
 
   const handleLogout = async () => {
     Cookies.remove('token');
+    Cookies.remove('user');
     window.location.reload();
   };
 
@@ -36,12 +52,8 @@ export default function Header({ token }: HeaderProps) {
             >
               Logout
             </button>
-            <div className="relative">
-              <button
-                onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="flex items-center gap-2 text-gray-700 hover:text-violet-600 transition-colors"
-              >
-              </button>
+            <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-600 font-semibold text-base">
+              {(user as any)?.name ? (user as any).name.charAt(0).toUpperCase() : ''}
             </div>
           </div>
         ) : (

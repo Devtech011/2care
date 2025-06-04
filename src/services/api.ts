@@ -47,9 +47,10 @@ export const authAPI = {
   login: async (email: string, password: string) => {
     try {
       const response = await api.post('/auth/signin', { email, password });
-      const { token, user } = response.data;
+      const { token, data } = response.data;
       Cookies.set('token', token, { secure: true, sameSite: 'strict' });
-      return user;
+      Cookies.set('user',  JSON.stringify(data), { secure: true, sameSite: 'strict' });
+      return data;
     } catch (error) {
       handleApiError(error as AxiosError<ApiErrorResponse>);
     }
@@ -63,18 +64,9 @@ export const authAPI = {
     try {
       const response = await api.post('/auth/signup', userData);
       const { user } = response.data;
-      // Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'strict' });
       return user;
     } catch (error) {
       handleApiError(error as AxiosError<ApiErrorResponse>);
-    }
-  },
-
-  logout: async () => {
-    try {
-      Cookies.remove('token');
-    } catch (error) {
-      toast.error('Logout failed. Please try again.');
     }
   },
 };

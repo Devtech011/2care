@@ -24,7 +24,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
       setIsLoading(true);
       setError(null);
       const user = await authAPI.signup({
-        name:values.firstName+values.lastName,
+        name:values.firstName+" "+values.lastName,
         email: values.email,
         password: values.password
       });
