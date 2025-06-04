@@ -23,7 +23,7 @@ A secure, HIPAA-compliant web application that uses AI to analyze medical report
 ## Prerequisites
 
 - Node.js (v18 or higher)
-- npm or yarn
+- npm
 - A modern web browser
 
 ## Getting Started
